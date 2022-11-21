@@ -9,14 +9,14 @@ import IPython.display as ipd
 from itertools import cycle
 
 class silvertone(object):
-    y = None
+    x = None
     sr = None
     S_db_mel = None
 
     def __init__ (self, audio, mels, *args, **kwargs):
         audio_file = audio
-        self.y, self.sr = librosa.load(audio_file)
-        S = librosa.feature.melspectrogram(y=self.y, sr=self.sr, n_mels=mels,)
+        self.x, self.sr = librosa.load(audio_file)
+        S = librosa.feature.melspectrogram(y=self.x, sr=self.sr, n_mels=mels)
         self.S_db_mel = librosa.amplitude_to_db(S, ref=np.max)
 
     def plot_mel_spec(self, axes, *args, **kwargs):
