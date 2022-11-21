@@ -12,12 +12,21 @@ class silvertone(object):
     x = None
     sr = None
     S_db_mel = None
+    spectral_centroid = None
+    mfcc = None
+    chroma_stft = None
+    tonnetz = None
 
     def __init__ (self, audio, mels, *args, **kwargs):
         audio_file = audio
         self.x, self.sr = librosa.load(audio_file)
         S = librosa.feature.melspectrogram(y=self.x, sr=self.sr, n_mels=mels)
         self.S_db_mel = librosa.amplitude_to_db(S, ref=np.max)
+        self.spectral_centroid = librosa.feature.spectral_centroid(y=self.x, sr=self.sr, S=S)
+        self.mfcc = librosa.feature.mfcc(y=self.x, sr=self.sr, S=S)
+        self.chroma_stft = librosa.feature.chroma_stft(y=self.x, sr=self.sr, S=S)
+        self.tonnetz = librosa.feature.tonnetz(y=self.x, sr=self.sr)
+        
 
     def plot_mel_spec(self, axes, *args, **kwargs):
         """
