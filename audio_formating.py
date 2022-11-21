@@ -2,9 +2,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pylab as plt
 import seaborn as sns
-
-from glob import glob
-
 import librosa
 import librosa.display
 import IPython.display as ipd
@@ -17,8 +14,8 @@ class silvertone(object):
     S_db_mel = None
 
     def __init__ (self, audio, mels, *args, **kwargs):
-        audio_file = glob(audio)
-        self.y, self.sr = librosa.load(audio_file[0])
+        audio_file = audio
+        self.y, self.sr = librosa.load(audio_file)
         S = librosa.feature.melspectrogram(y=self.y, sr=self.sr, n_mels=mels,)
         self.S_db_mel = librosa.amplitude_to_db(S, ref=np.max)
 
