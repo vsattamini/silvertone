@@ -8,7 +8,7 @@ import IPython.display as ipd
 
 from itertools import cycle
 
-class silvertone(object):
+class Silvertone(object):
     x = None
     sr = None
     S_db_mel = None
