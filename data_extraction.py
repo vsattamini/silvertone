@@ -61,7 +61,9 @@ def extract_ravdess(mels=256):
     df = pd.DataFrame(dic)
 
     emo_relation = {1: 'neutral', 2: 'calm', 3: 'happy', 4: 'sad',
-            5: 'angry', 6: 'fearful', 7: 'disgust', 8: 'surprised'}
+            5: 'angry', 6: 'fearful', 7: 'disgust', 8: 'surprised',
+            '1': 'neutral', '2': 'calm', '3': 'happy', '4': 'sad',
+            '5': 'angry', '6': 'fearful', '7': 'disgust', '8': 'surprised'}
     int_relation = {2:3 ,1:2}
 
 
@@ -125,7 +127,8 @@ def extract_crema(mels=256):
     df = pd.DataFrame(dic)
 
     emo_relation = {'NEU': 'neutral', 2: 'calm', 'HAP': 'happy', 'SAD': 'sad',
-            'ANG': 'angry', 'FEA': 'fearful', 'DIS': 'disgust', 8: 'surprised'}
+            'ANG': 'angry', 'FEA': 'fearful', 'DIS': 'disgust', 8: 'surprised',
+            '_SA': 'sad'}
     int_relation = {'XX': 0, 'LO':1,'MD':2,'HI':3}
 
     df = df.replace({'emotion':emo_relation,'intensity':int_relation,
@@ -164,7 +167,7 @@ def extract_savee(mels=256):
         tonnetz.append(tone.tonnetz)
         id.append(speech[i][-10:-4])
         source.append('savee')
-        emotion.append(speech[i][-7])
+        emotion.append(speech[i][-8:-6])
         intensity.append(0)
         repetition.append(0)
         actor_gender.append('male')
@@ -178,8 +181,8 @@ def extract_savee(mels=256):
        "actor_gender": actor_gender,"actor_age": actor_age, "source": source}
     df = pd.DataFrame(dic)
 
-    emo_relation = {'n': 'neutral', 2: 'calm', 'h': 'happy', 'sa': 'sad',
-            'a': 'angry', 'f': 'fearful', 'd': 'disgust', 'su': 'surprised'}
+    emo_relation = {'_n': 'neutral', 2: 'calm', '_h': 'happy', 'sa': 'sad',
+            '_a': 'angry', '_f': 'fearful', '_d': 'disgust', 'su': 'surprised'}
 
     df = df.replace({'emotion':emo_relation})
 
