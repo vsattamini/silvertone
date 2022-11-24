@@ -24,7 +24,7 @@ class Silvertone(object):
         self.S_db_mel = librosa.amplitude_to_db(S, ref=np.max)
         self.spectral_centroid = librosa.feature.spectral_centroid(y=self.x, sr=self.sr, S=S)
         self.mfcc = np.mean(librosa.feature.mfcc(y=self.x, sr=self.sr, n_mfcc=20), axis=0)
-        self.chroma_stft = librosa.feature.chroma_stft(y=self.x, sr=self.sr, S=S)
+        self.chro   a_stft = librosa.feature.chroma_stft(y=self.x, sr=self.sr, S=S)
         self.tonnetz = librosa.feature.tonnetz(y=self.x, sr=self.sr)
 
 
