@@ -10,10 +10,10 @@ from glob import glob
 import numpy as np
 
 # os.chdir('/content/drive/MyDrive/Colab Notebooks')
+path = '/content/drive/MyDrive/Emotion Datasets/Emotion Datasets/Audio'
 
 
-
-def extract_ravdess(mels=256):
+def extract_ravdess(mels=256, trim=False, path=path):
     '''
     Extracts audio features from ravdess db using methods defined in the
     Silvertone object
@@ -31,11 +31,13 @@ def extract_ravdess(mels=256):
     repetition = []
     actor_gender = []
     actor_age = []
+    mel_spec = []
+    fourrier = []
 
-    speech = glob("/content/drive/MyDrive/Emotion Datasets/Emotion Datasets/Audio/RAVDESS/Audio_Speech_Actors_01-24/*.wav")
+    speech = glob(f"{path}/RAVDESS/Audio_Speech_Actors_01-24/*.wav")
 
     for i in np.arange(0, len(speech)):
-        tone = Silvertone(speech[i], mels)
+        tone = Silvertone(speech[i], mels, trim)
         spec.append(tone.S_db_mel)
         wave.append(tone.x)
         spectral_centroid.append(tone.spectral_centroid)
@@ -48,12 +50,14 @@ def extract_ravdess(mels=256):
         intensity.append(speech[i][-14:-13])
         repetition.append(speech[i][-8:-7])
         actor_age.append(0)
+        mel_spec.append(tone.S)
+        fourrier.append(tone.fourrier)
         if int(speech[i][-8:-7]) % 2 == 0 or int(speech[i][-8:-7]) == 0:
             actor_gender.append('female')
         else:
             actor_gender.append('male')
 
-    dic = {"id": id,"wave": wave,
+    dic = {"id": id,"wave": wave, "mel_spec":mel_spec, "fourrier":fourrier,
        "spec": spec, "spectral_centroid": spectral_centroid,
        "mfcc": mfcc, "chroma_stft": chroma_stft, "tonnetz": tonnetz,
        "emotion":emotion, "intensity": intensity, "repetition": repetition,
@@ -71,7 +75,7 @@ def extract_ravdess(mels=256):
 
     return df
 
-def extract_crema(mels=256):
+def extract_crema(mels=256, trim=False, path=path):
     '''
     Extracts audio features from crema db using methods defined in the
     Silvertone object
@@ -88,6 +92,8 @@ def extract_crema(mels=256):
     intensity = []
     actor_gender = []
     actor_age = []
+    mel_spec = []
+    fourrier = []
     demo = pd.read_csv('demographic_relation.csv')
     actids = list(demo.to_dict()['ActorID'].values())
     actids = [str(i) for i in actids]
@@ -98,11 +104,11 @@ def extract_crema(mels=256):
     gender_relation = dict(zip(actids, gender))
     age_relation = dict(zip(actids, age))
 
-    speech = glob("/content/drive/MyDrive/Emotion Datasets/Emotion Datasets/Audio/Crema (avail in TFDS)/*.wav")
+    speech = glob(f"{path}/Crema (avail in TFDS)/*.wav")
     repetition = []
 
     for i in speech:
-        tone = Silvertone(i, mels)
+        tone = Silvertone(i, mels, trim)
         spec.append(tone.S_db_mel)
         wave.append(tone.x)
         spectral_centroid.append(tone.spectral_centroid)
@@ -116,10 +122,12 @@ def extract_crema(mels=256):
         repetition.append(0)
         actor_gender.append(i[-19:-15])
         actor_age.append(i[-19:-15])
+        mel_spec.append(tone.S)
+        fourrier.append(tone.fourrier)
 
 
 
-    dic = {"id": id,"wave": wave,
+    dic = {"id": id,"wave": wave, "mel_spec":mel_spec, "fourrier":fourrier,
        "spec": spec, "spectral_centroid": spectral_centroid,
        "mfcc": mfcc, "chroma_stft": chroma_stft, "tonnetz": tonnetz,
        "emotion":emotion, "intensity": intensity, "repetition": repetition,
@@ -136,7 +144,7 @@ def extract_crema(mels=256):
 
     return df
 
-def extract_savee(mels=256):
+def extract_savee(mels=256, trim=False, path=path):
     '''
     Extracts audio features from savee db using methods defined in the
     Silvertone object
@@ -154,11 +162,13 @@ def extract_savee(mels=256):
     actor_gender = []
     actor_age = []
     repetition = []
+    mel_spec = []
+    fourrier = []
 
-    speech = glob("/content/drive/MyDrive/Emotion Datasets/Emotion Datasets/Audio/Savee/*.wav")
+    speech = glob(f"{path}/Savee/*.wav")
 
     for i in np.arange(0, len(speech)):
-        tone = Silvertone(speech[i], mels)
+        tone = Silvertone(speech[i], mels, trim)
         spec.append(tone.S_db_mel)
         wave.append(tone.x)
         spectral_centroid.append(tone.spectral_centroid)
@@ -172,9 +182,11 @@ def extract_savee(mels=256):
         repetition.append(0)
         actor_gender.append('male')
         actor_age.append('young')
+        mel_spec.append(tone.S)
+        fourrier.append(tone.fourrier)
 
 
-    dic = {"id": id,"wave": wave,
+    dic = {"id": id,"wave": wave, "mel_spec":mel_spec, "fourrier":fourrier,
        "spec": spec, "spectral_centroid": spectral_centroid,
        "mfcc": mfcc, "chroma_stft": chroma_stft, "tonnetz": tonnetz,
        "emotion":emotion, "intensity": intensity, "repetition": repetition,
@@ -188,7 +200,7 @@ def extract_savee(mels=256):
 
     return df
 
-def extract_tess(mels=256):
+def extract_tess(mels=256, trim=False, path=path):
     '''
     Extracts audio features from savee db using methods defined in the
     Silvertone object
@@ -206,11 +218,13 @@ def extract_tess(mels=256):
     actor_gender = []
     actor_age = []
     repetition = []
+    mel_spec = []
+    fourrier = []
 
-    speech = glob("/content/drive/MyDrive/Emotion Datasets/Emotion Datasets/Audio/Tess/*.wav")
+    speech = glob(f"{path}/Tess/*.wav")
 
     for i in np.arange(0, len(speech)):
-        tone = Silvertone(speech[i], mels)
+        tone = Silvertone(speech[i], mels, trim)
         spec.append(tone.S_db_mel)
         wave.append(tone.x)
         spectral_centroid.append(tone.spectral_centroid)
@@ -222,6 +236,8 @@ def extract_tess(mels=256):
         intensity.append(0)
         repetition.append(0)
         actor_gender.append('female')
+        mel_spec.append(tone.S)
+        fourrier.append(tone.fourrier)
         if speech[i][68:71] == 'YAF':
             actor_age.append('young')
         else:
@@ -241,7 +257,7 @@ def extract_tess(mels=256):
         else:
             emotion.append('angry')
 
-    dic = {"id": id,"wave": wave,
+    dic = {"id": id,"wave": wave, "mel_spec":mel_spec, "fourrier":fourrier,
        "spec": spec, "spectral_centroid": spectral_centroid,
        "mfcc": mfcc, "chroma_stft": chroma_stft, "tonnetz": tonnetz,
        "emotion":emotion, "intensity": intensity, "repetition": repetition,
