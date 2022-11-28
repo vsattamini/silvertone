@@ -73,7 +73,7 @@ def add_bg_from_local(image_file):
     """,
     unsafe_allow_html=True
     )
-add_bg_from_local('luffy.jpeg')
+add_bg_from_local('logo2.png')
 
 
 audio_bytes = audio_recorder()
