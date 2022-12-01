@@ -68,6 +68,7 @@ if audio_bytes:
     model_pickle = open("54,6_model.sav", "rb")
     model = pickle.load(model_pickle)
     y = model.predict(X_flat)
+    y_proba = model.predict_proba(X_flat)
     if y == "01":
         response = "Neutral"
     elif y == "02":
@@ -87,6 +88,7 @@ if audio_bytes:
     else:
         response = "Error"
     st.subheader(response)
+    st.write(y_proba[0])
 
 
 
