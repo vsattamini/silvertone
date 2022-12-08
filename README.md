@@ -1,73 +1,39 @@
+- Project Name: silvertone
+- Description: A ML model that recognizes tone(emotion) in spoken english audio recordings
+- Data Source: Various university databases, annotated by humans, with particular structures, links and origins documented in "Silver-Tone Reference v0.ipynb"
+- Main objective: Create a model capable of recognizing emotions in audio and deploying the model on an online platform
+
 # Data analysis
-- Document here the project: silvertone
-- Description: Project Description
-- Data Source:
-- Type of analysis:
 
-Please document the project the better you can.
+Data analysis was less important in this project, as we had very well labeled data, and our core objective was to develop a model capable of recognizing emotion
 
-# Startup the project
+# Data preparation
 
-The initial setup.
+Librosa was the main library used for this project. It is an audio analyisis library with various built in tools. We tried out a few different methods and metrics contained in Librosa, but we had better success with cutting or padding the audios so that all instances were of equal length andcould be inputed in our models. We cut empty audio based on decebels, keeping only the spoken portions.
 
-Create virtualenv and install the project:
-```bash
-sudo apt-get install virtualenv python-pip python-dev
-deactivate; virtualenv ~/venv ; source ~/venv/bin/activate ;\
-    pip install pip -U; pip install -r requirements.txt
-```
+## Extracted features
 
-Unittest test:
-```bash
-make clean install test
-```
+- Wave
+- Mel-frequency cepstral coefficients (MFCCs)
+- Mel Spectrogram
+- Spectral Centroid
+- Chromagram
+- Tonnetz
 
-Check for silvertone in github.com/{group}. If your project is not set please add it:
+# Models
 
-Create a new project on github.com/{group}/silvertone
-Then populate it:
+We tried out various different models, with varying levels of success:
 
-```bash
-##   e.g. if group is "{group}" and project_name is "silvertone"
-git remote add origin git@github.com:{group}/silvertone.git
-git push -u origin master
-git push -u origin --tags
-```
+- 1D and 2D convolutional neural networks (CNNs), applied to various metrics but focusing on the mel spectrogram and on tonnetz
+-- 1D CNNs as the usual audio analysis tool (This analysis on MFCCs came close to replicating the results on ML Models)
+-- 2D CNNs as a way to analyze spectrograms as images (On tonnetz, we had good results, but not quite as close to traditional ML models as we'd like)
 
-Functionnal test with a script:
+- Traditional Machine Learning Models
+-- Random Forest (intitially our most successful model) on MFCCs
+-- SVM on MFCCs (Our final, most successful model)
 
-```bash
-cd
-mkdir tmp
-cd tmp
-silvertone-run
-```
 
-# Install
+# Deployment
 
-Go to `https://github.com/{group}/silvertone` to see the project, manage issues,
-setup you ssh public key, ...
+We deployed out model on streamlit
 
-Create a python3 virtualenv and activate it:
-
-```bash
-sudo apt-get install virtualenv python-pip python-dev
-deactivate; virtualenv -ppython3 ~/venv ; source ~/venv/bin/activate
-```
-
-Clone the project and install it:
-
-```bash
-git clone git@github.com:{group}/silvertone.git
-cd silvertone
-pip install -r requirements.txt
-make clean install test                # install and test
-```
-Functionnal test with a script:
-
-```bash
-cd
-mkdir tmp
-cd tmp
-silvertone-run
-```
